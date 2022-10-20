@@ -14,14 +14,19 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+      body: ListView(
+        physics: BouncingScrollPhysics(),
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Padding(padding: EdgeInsets.only(left: 20, top: 20, bottom: 20),
+              child: Text('메모메모', style: TextStyle(fontSize: 36, color: Colors.blue),))
+
+            ],
+          ),
+          ...LoadMemo() // 모든 항목에 함수 적용
+        ],
       ),
-      body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[Text("You have pushed the button many times")],
-      )),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(
@@ -33,4 +38,13 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  List<Widget> LoadMemo() {
+    List<Widget> memoList = [];
+    memoList.add(Container(color: Colors.greenAccent, height: 70));
+    memoList.add(Container(color: Colors.limeAccent, height: 70));
+    return memoList;
+  }
+
 }
+
