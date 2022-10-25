@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'edit.dart';
 
+import 'package:my_flutter/database/db.dart';
+import 'package:my_flutter/database/memo.dart';
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -14,17 +17,15 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        physics: BouncingScrollPhysics(),
+      body: Column(
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Padding(padding: EdgeInsets.only(left: 20, top: 20, bottom: 20),
-              child: Text('메모메모', style: TextStyle(fontSize: 36, color: Colors.blue),))
-
-            ],
-          ),
-          ...LoadMemo() // 모든 항목에 함수 적용
+          Padding(
+              padding: EdgeInsets.only(left: 20, top: 50, bottom: 20),
+              child: Text(
+                '메모메모',
+                style: TextStyle(fontSize: 36, color: Colors.blue),
+              )),
+          Expanded(child: memoBuilder()),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -46,6 +47,36 @@ class _MyHomePageState extends State<MyHomePage> {
     return memoList;
   }
 
+  Future<List<Memo>> loadMemo() async {
+    DBHelper sd = DBHelper();
+    return await sd.memos();
+  }
 
+  Widget memoBuilder() {
+    return FutureBuilder(
+      builder: (context, projectSnap) {
+        if (projectSnap.data!.isEmpty) {
+          //print('project snapshot data is: ${projectSnap.data}');
+          return Container(child: Text("메모를 지금 바로 추가해보세요!"));
+        }
+        return ListView.builder(
+          itemCount: projectSnap.data?.length,
+          itemBuilder: (context, index) {
+            Memo memo = projectSnap.data![index];
+            return Column(
+              children: <Widget>[
+                Text(memo.title!),
+                Text(memo.text!),
+                Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Text(memo.editTime!))
+                // Widget to display the list of project
+              ],
+            );
+          },
+        );
+      },
+      future: loadMemo(),
+    );
+  }
 }
-
