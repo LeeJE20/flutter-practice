@@ -39,6 +39,7 @@ class DBHelper {
     );
   }
 
+  // Future은 for로 돌릴 수 있는 형태가 아님 -> FutureBilder 위젯 이용
   Future<List<Memo>> memos() async {
     final db = await database;
 

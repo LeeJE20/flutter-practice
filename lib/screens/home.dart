@@ -21,10 +21,12 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           Padding(
               padding: EdgeInsets.only(left: 20, top: 50, bottom: 20),
-              child: Text(
+              child: Container(
+                alignment: Alignment.centerLeft,
+                  child: Text(
                 '메모메모',
                 style: TextStyle(fontSize: 36, color: Colors.blue),
-              )),
+              ))),
           Expanded(child: memoBuilder()),
         ],
       ),
@@ -57,7 +59,12 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (context, projectSnap) {
         if (projectSnap.data!.isEmpty) {
           //print('project snapshot data is: ${projectSnap.data}');
-          return Container(child: Text("메모를 지금 바로 추가해보세요!"));
+          return Container(
+              alignment: Alignment.center,
+              child: Text("메모를 지금 바로 추가해보세요!",
+              style: TextStyle(fontSize: 25, color: Colors.blueGrey),
+              textAlign: Alignment.center!!,)
+            );
         }
         return ListView.builder(
           itemCount: projectSnap.data?.length,
